@@ -1,0 +1,6 @@
+streamlit
+pymongo
+plotly
+dnspython
+pandas
+uuid
