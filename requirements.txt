@@ -1,7 +1,5 @@
 streamlit
-pymongo
 plotly
 pandas
 uuid
-psycopg2
 duckdb

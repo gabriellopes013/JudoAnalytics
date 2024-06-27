@@ -5,8 +5,6 @@ con = duckdb.connect('judo_app.db')
 
 # Função para criar a tabela se não existir
 def create_table():
-     # Criar uma sequência para id_atleta na tabela atletas
-    # con.execute("CREATE SEQUENCE seq_atletas_id START 1")
 
     # Criar a tabela atletas
     con.execute("""
@@ -20,9 +18,6 @@ def create_table():
             clube VARCHAR
         )
     """)
-
-    # Criar uma sequência para id_luta na tabela lutas
-    # con.execute("CREATE SEQUENCE seq_lutas_id START 1")
 
     # Criar a tabela lutas
     con.execute("""
