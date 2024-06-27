@@ -22,7 +22,7 @@ def register_athletes():
             "Sênior": ["-48", "-52", "-57", "-63", "-70", "-78","+78"]
         }
 
-    ctg_peso = st.selectbox("Escolha sua categoria de Peso:", categorias_peso[idade])
+    ctg_peso = st.selectbox("Escolha sua categoria de Peso:", categorias_peso[ctg_idade])
     clube = st.text_input('Clube:')
 
     if st.button('Cadastrar Atleta'):
