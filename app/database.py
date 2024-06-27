@@ -40,12 +40,14 @@ def insert_atleta(genero, nome, sobrenome, ctg_idade, ctg_peso, clube):
         INSERT INTO atletas (genero, nome, sobrenome, ctg_idade, ctg_peso, clube) 
         VALUES (?, ?, ?, ?, ?, ?)
     """, (genero, nome, sobrenome, ctg_idade, ctg_peso, clube))
+    con.commit()
 
 def insert_luta(id_atleta, adversario, minuto_luta, dir_golpe, postura):
     con.execute("""
         INSERT INTO lutas (id_atleta, adversario, minuto_luta, dir_golpe, postura) 
         VALUES (?, ?, ?, ?, ?)
     """, (id_atleta, adversario, minuto_luta, dir_golpe, postura))
+    con.commit()
 
 # Função para obter todos os dados
 def get_atletas():
