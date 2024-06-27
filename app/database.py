@@ -1,9 +1,11 @@
 import duckdb
+import streamlit as st
 
 # Conectar ao banco de dados DuckDB
 con = duckdb.connect('judo_app.db')
 
 # Função para criar a tabela se não existir
+@st.cache_data(allow_output_mutation=True)
 def create_table():
 
     # Criar a tabela atletas
