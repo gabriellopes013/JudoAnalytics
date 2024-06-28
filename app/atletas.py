@@ -1,5 +1,6 @@
 import streamlit as st
-from app.database import insert_atleta,con
+
+from app.database import insert_atleta, check_atleta_exists
 
 def register_athletes():
     st.title('Cadastro de Atletas')
@@ -27,12 +28,12 @@ def register_athletes():
 
     if st.button('Cadastrar Atleta'):
         if all([genero, nome, sobrenome, ctg_idade, clube, ctg_peso]):
-            existing_atleta = con.execute("SELECT * FROM atletas WHERE nome = ? AND sobrenome = ?", (nome, sobrenome)).fetchall()
-            
-            if existing_atleta:
+            if check_atleta_exists(nome, sobrenome, ctg_idade, ctg_peso, clube):
                 st.warning(f"Atleta '{nome} {sobrenome}' já existe no banco de dados.")
             else:
                 insert_atleta(genero, nome, sobrenome, ctg_idade, ctg_peso, clube)
                 st.success('Atleta cadastrado com sucesso!')
         else:
             st.error('Por favor, preencha todos os campos obrigatórios.')
+    else:
+        st.error('Por favor, preencha todos os campos obrigatórios.')

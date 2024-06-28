@@ -1,18 +1,19 @@
 import streamlit as st
-# from app.atletas import register_athletes
-# from app.database import df_teste
-# from register_fights import register_fights
+from app.atletas import register_athletes
+from app.database import create_table_atletas, create_table_lutas
+from app.lutas import register_combat
 def main():
     st.sidebar.title('Navegação')
     page = st.sidebar.radio('Ir para', ['Registrar Atletas', 'Registrar Lutas'])
-    st.write("Deu certo")
 
-    # if page == 'Registrar Atletas':
-    #     register_athletes()
-    # # elif page == 'Registrar Lutas':
-    # #     register_fights()
-    # df_atletas = df_teste()
 
-    # st.table(df_atletas)
+    if page == 'Registrar Atletas':
+        register_athletes()
+    
+    if page == 'Registrar Lutas':
+        register_combat()
+
 if __name__ == '__main__':
+    create_table_atletas()
+    create_table_lutas()
     main()
