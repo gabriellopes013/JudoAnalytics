@@ -28,7 +28,7 @@ def register_athletes():
 
     if st.button('Cadastrar Atleta'):
         if all([genero, nome, sobrenome, ctg_idade, clube, ctg_peso]):
-            if check_atleta_exists(nome, sobrenome, ctg_idade, ctg_peso, clube):
+            if check_atleta_exists(nome,sobrenome, ctg_idade, ctg_peso, clube):
                 st.warning(f"Atleta '{nome} {sobrenome}' já existe no banco de dados.")
             else:
                 insert_atleta(genero, nome, sobrenome, ctg_idade, ctg_peso, clube)

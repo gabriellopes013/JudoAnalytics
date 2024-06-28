@@ -5,7 +5,7 @@ from psycopg2.extras import execute_values
 
 # Função para conectar ao banco de dados
 url="postgresql://neondb_owner:MDBbntz1xGy2@ep-proud-sea-a5pjm2xm.us-east-2.aws.neon.tech/judo_app?sslmode=require"
-@st.cache_resource
+@st.cache_resource()
 def get_connection():
     conn = psycopg2.connect(url)
     return conn
@@ -44,6 +44,8 @@ def create_table_lutas():
                 id SERIAL PRIMARY KEY,
                 id_atleta INTEGER,
                 adversario VARCHAR,
+                evento VARCHAR,
+                data DATE,
                 minuto_luta VARCHAR,
                 dir_golpe VARCHAR,
                 postura VARCHAR,
@@ -70,21 +72,23 @@ def insert_atleta(genero, nome, sobrenome, ctg_idade, ctg_peso, clube):
     except Exception as e:
         print(f"Erro ao inserir atleta: {e}")
 
-def insert_luta(id_atleta,adversario, minuto_luta, dir_golpe, postura):
+def insert_luta(id_atleta,adversario,evento ,data,minuto_luta, dir_golpe, postura):
     try:
         id_atleta = get_id_atleta_by_nome_sobrenome(id_atleta)
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            INSERT INTO atletas (id_atleta,adversario, minuto_luta, dir_golpe, postura) 
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (id_atleta,adversario, minuto_luta, dir_golpe, postura))
+            INSERT INTO lutas (id_atleta,evento,data,dversario, minuto_luta, dir_golpe, postura) 
+            VALUES (%s, %s, %s, %s, %s, %s,%s)
+        """, (id_atleta,adversario, evento, data,minuto_luta, dir_golpe, postura))
         conn.commit()
         cur.close()
     except Exception as e:
         print(f"Erro ao inserir atleta: {e}")
 
 def check_atleta_exists(nome, sobrenome, ctg_idade, ctg_peso, clube):
+    conn = None
+    cur = None
     try:
         conn = get_connection()
         cur = conn.cursor()
@@ -93,10 +97,10 @@ def check_atleta_exists(nome, sobrenome, ctg_idade, ctg_peso, clube):
             WHERE nome = %s AND sobrenome = %s AND ctg_idade = %s AND ctg_peso = %s AND clube = %s
         """, (nome, sobrenome, ctg_idade, ctg_peso, clube))
         atleta = cur.fetchone()
-        cur.close()
         return atleta is not None
     except Exception as e:
-        conn.rollback()
+        if conn is not None:
+            conn.rollback()
         st.error(f"Erro ao verificar existência do atleta: {e}")
         return False
     
