@@ -21,6 +21,7 @@ def create_table_atletas():
                 id SERIAL PRIMARY KEY,
                 genero VARCHAR,
                 nome VARCHAR,
+                sobrenome VARCHAR,
                 ctg_idade VARCHAR,
                 ctg_peso VARCHAR,
                 clube VARCHAR
@@ -73,13 +74,12 @@ def insert_atleta(genero, nome, sobrenome, ctg_idade, ctg_peso, clube):
 
 def insert_luta(id_atleta,adversario,evento ,data,minuto_luta, dir_golpe, postura):
     try:
-        id_atleta = get_id_atleta_by_nome_sobrenome(id_atleta)
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
             INSERT INTO lutas (id_atleta,evento,data,adversario, minuto_luta, dir_golpe, postura) 
             VALUES (%s, %s, %s, %s, %s, %s,%s)
-        """, (id_atleta,adversario, evento, data,minuto_luta, dir_golpe, postura))
+        """, (id_atleta,adversario, evento, data, minuto_luta, dir_golpe, postura))
         conn.commit()
         cur.close()
     except Exception as e:
@@ -107,9 +107,9 @@ def get_id_atleta_by_nome_sobrenome(nome_completo):
     try:
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute("""
-            SELECT id FROM atletas WHERE nome = %s
-        """, (nome_completo,))
+        cur.execute(f"""
+            SELECT id FROM atletas WHERE CONCAT(nome, ' ', sobrenome) = '{nome_completo}'
+        """)
         id_atleta = cur.fetchone()
         cur.close()
         return id_atleta[0] if id_atleta else None
@@ -122,11 +122,11 @@ def get_atletas_nomes():
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT nome FROM atletas
+            SELECT nome, sobrenome FROM atletas
         """)
         nomes_atletas = cur.fetchall()
         cur.close()
-        return [nome[0] for nome in nomes_atletas]
+        return [" ".join(nome) for nome in nomes_atletas]
     except Exception as e:
         print(f"Erro ao buscar nomes dos atletas: {e}")
         return []
