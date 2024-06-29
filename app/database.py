@@ -21,7 +21,6 @@ def create_table_atletas():
                 id SERIAL PRIMARY KEY,
                 genero VARCHAR,
                 nome VARCHAR,
-                sobrenome VARCHAR,
                 ctg_idade VARCHAR,
                 ctg_peso VARCHAR,
                 clube VARCHAR
@@ -78,7 +77,7 @@ def insert_luta(id_atleta,adversario,evento ,data,minuto_luta, dir_golpe, postur
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            INSERT INTO lutas (id_atleta,evento,data,dversario, minuto_luta, dir_golpe, postura) 
+            INSERT INTO lutas (id_atleta,evento,data,adversario, minuto_luta, dir_golpe, postura) 
             VALUES (%s, %s, %s, %s, %s, %s,%s)
         """, (id_atleta,adversario, evento, data,minuto_luta, dir_golpe, postura))
         conn.commit()
@@ -109,7 +108,7 @@ def get_id_atleta_by_nome_sobrenome(nome_completo):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT id FROM atletas WHERE CONCAT(nome, ' ', sobrenome) = %s
+            SELECT id FROM atletas WHERE nome = %s
         """, (nome_completo,))
         id_atleta = cur.fetchone()
         cur.close()
@@ -123,7 +122,7 @@ def get_atletas_nomes():
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT CONCAT(nome, ' ', sobrenome) FROM atletas
+            SELECT nome FROM atletas
         """)
         nomes_atletas = cur.fetchall()
         cur.close()

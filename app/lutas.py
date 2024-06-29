@@ -8,6 +8,7 @@ def register_combat():
     st.title("Cadastro de Lutas")
      # Busca os nomes dos atletas para o selectbox
     nomes_atletas = get_atletas_nomes()
+    print(nomes_atletas)
 
     # Selectbox para escolher o nome do atleta
     nome_atleta = st.selectbox('Selecione o Atleta', nomes_atletas, index=None,placeholder='Selecione o Atleta')

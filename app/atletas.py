@@ -5,8 +5,7 @@ from app.database import insert_atleta, check_atleta_exists
 def register_athletes():
     st.title('Cadastro de Atletas')
 
-    nome = st.text_input('Nome:')
-    sobrenome = st.text_input('Sobrenome:')
+    nome = st.text_input('Nome Completo:')
     genero = st.selectbox('Gênero:', ['Masculino', 'Feminino'])
     ctg_idade = st.selectbox("Categoria de Idade:", ["sub-18", "sub-21", "Sênior"])
 
@@ -27,11 +26,11 @@ def register_athletes():
     clube = st.text_input('Clube:')
 
     if st.button('Cadastrar Atleta'):
-        if all([genero, nome, sobrenome, ctg_idade, clube, ctg_peso]):
-            if check_atleta_exists(nome,sobrenome, ctg_idade, ctg_peso, clube):
-                st.warning(f"Atleta '{nome} {sobrenome}' já existe no banco de dados.")
+        if all([genero, nome, ctg_idade, clube, ctg_peso]):
+            if check_atleta_exists(nome, ctg_idade, ctg_peso, clube):
+                st.warning(f"Atleta '{nome}' já existe no banco de dados.")
             else:
-                insert_atleta(genero, nome, sobrenome, ctg_idade, ctg_peso, clube)
+                insert_atleta(genero, nome, ctg_idade, ctg_peso, clube)
                 st.success('Atleta cadastrado com sucesso!')
         else:
             st.error('Por favor, preencha todos os campos obrigatórios.')
