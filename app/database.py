@@ -111,7 +111,6 @@ def get_id_atleta_by_nome_sobrenome(nome_completo):
             SELECT id FROM atletas WHERE CONCAT(nome, ' ', sobrenome) = '{nome_completo}'
         """)
         id_atleta = cur.fetchone()
-        cur.close()
         return id_atleta[0] if id_atleta else None
     except Exception as e:
         print(f"Erro ao buscar ID do atleta: {e}")

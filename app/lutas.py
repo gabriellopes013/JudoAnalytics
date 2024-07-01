@@ -24,4 +24,8 @@ def register_combat():
     st.warning(nome_atleta)
 
     if st.button('Cadastrar Atleta'):
-        insert_luta(id_atleta, evento, data, adversario, minuto_luta, dir_golpe, postura)
+        if all([id_atleta, evento, data, minuto_luta, dir_golpe, postura, adversario]):
+            insert_luta(id_atleta, evento, data, adversario, minuto_luta, dir_golpe, postura)
+            st.success('Atleta cadastrado com sucesso!')
+        else:
+            st.warning('Erro ao inserir, Preencha os dados faltantes!')
